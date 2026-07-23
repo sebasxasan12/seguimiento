@@ -1,17 +1,17 @@
-FROM node:22.22.2
+FROM node:22.22.2-alpine AS base
 
-WORKDIR /usr/local/app
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-RUN npm install -g pnpm
+WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./
 
-RUN pnpm install --ignore-scripts
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 COPY . .
 
 RUN pnpm run build
 
-EXPOSE 3000
+EXPOSE  3000
 
-CMD ["node", "dist/main"]
+CMD ["node", "dist/main.js"]

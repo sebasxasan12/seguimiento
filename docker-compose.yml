@@ -1,8 +1,21 @@
 services:
-  db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+  # db:
+  #   image: mcr.microsoft.com/mssql/server:2022-latest
+  #   environment:
+  #     MSSQL_SA_PASSWORD: Cmc_2025
+  #     ACCEPT_EULA: Y
+  #   ports:
+  #     - "1433:1433"
+
+  nest:
+    image: seguimiento-own:latest
     environment:
-      MSSQL_SA_PASSWORD: Cmc_2025
-      ACCEPT_EULA: Y
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      MAIL_USER: ${MAIL_USER}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
     ports:
-      - "1433:1433"
+      - "3000:3000"

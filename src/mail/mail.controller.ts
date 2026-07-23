@@ -8,10 +8,11 @@ export class MailController {
   constructor(private readonly mailService: MailService) { }
 
   @Post()
+  @UseInterceptors(FileInterceptor('file'))
   create(
-    @Body() maildto: MailDto
+    @Body() maildto: MailDto,
+    @UploadedFile() file: Express.Multer.File
   ) {
-    console.log({ maildto })
-    this.mailService.sendEmail(maildto);
+    return this.mailService.sendEmail(maildto, file);
   }
 }

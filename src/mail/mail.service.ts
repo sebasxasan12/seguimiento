@@ -9,8 +9,9 @@ export class MailService {
     private readonly mailerService: MailerService
   ) { }
 
-  async sendEmail(mailDto: MailDto) {
-    const { path, recipients } = mailDto;
+  async sendEmail(mailDto: MailDto, file: Express.Multer.File) {
+    const { path, recipients = [] } = mailDto;
+    console.log(recipients, typeof recipients)
     recipients.push('ingsebastianc@hotmail.com')
     await this.mailerService.sendMail({
       to: recipients,
@@ -21,10 +22,11 @@ export class MailService {
       attachments: [
         {
           filename: 'reporte_unidad.xlsx',
-          path: path
+          content: Buffer.from(file.buffer)
         }
       ]
     })
+    return "ok";
   }
 
 
